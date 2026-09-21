@@ -1,0 +1,14 @@
+{
+  "name": "@zerowidth/shims-example-urgency",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A three-answer shim, compiled and deciding in Node",
+  "scripts": {
+    "build": "shim-compile .",
+    "decide": "node decide.mjs"
+  },
+  "dependencies": {
+    "@zerowidth/shims-sdk": "workspace:*"
+  }
+}

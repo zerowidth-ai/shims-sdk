@@ -1,0 +1,48 @@
+name: CI
+
+# The whole suite runs on a fake encoder whose geometry is known: no model download, no network,
+# about three seconds. The mutation run puts past bugs back one at a time and expects the test
+# written for each to fail — a test that has never been seen to fail has not been shown to test
+# anything.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Corepack must be enabled BEFORE setup-node so the `cache: pnpm` step can find pnpm on PATH.
+      - name: Enable Corepack
+        run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      # --frozen-lockfile resolves nothing new; pnpm-workspace.yaml holds the seven-day release-age
+      # floor and denies every install script for whoever updates the lockfile next.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Test
+        run: pnpm test
+
+      - name: Mutation check
+        run: pnpm test:mutations
+
+      # What would actually ship: fails if the package stops packing, and prints the file list.
+      - name: Pack (dry run)
+        run: |
+          pnpm pack --pack-destination "$RUNNER_TEMP"
+          tar -tzf "$RUNNER_TEMP"/zerowidth-shims-sdk-*.tgz

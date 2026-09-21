@@ -1,0 +1,9 @@
+# New and updated dependencies must be at least seven days old, and no install script runs.
+minimumReleaseAge: 10080
+allowBuilds:
+  esbuild: false
+  onnxruntime-node: false
+  protobufjs: false
+  sharp: false
+packages:
+  - examples/*

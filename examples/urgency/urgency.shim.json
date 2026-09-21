@@ -1,0 +1,153 @@
+{
+ "name": "urgency",
+ "type": "classify",
+ "question": "How quickly does this need attention?",
+ "context": "Inbound support and business messages. One or two sentences, written in a hurry.",
+ "labels": [
+  "now",
+  "soon",
+  "whenever"
+ ],
+ "examples": [
+  {
+   "text": "production is completely down and customers can't check out",
+   "label": "now"
+  },
+  {
+   "text": "our whole team is locked out right now",
+   "label": "now"
+  },
+  {
+   "text": "payments are failing for every user",
+   "label": "now"
+  },
+  {
+   "text": "the site returns 500 on every page",
+   "label": "now"
+  },
+  {
+   "text": "we're losing orders every minute this is down",
+   "label": "now"
+  },
+  {
+   "text": "urgent: data is being deleted and we can't stop it",
+   "label": "now"
+  },
+  {
+   "text": "security breach in progress, need help immediately",
+   "label": "now"
+  },
+  {
+   "text": "everything is broken and a launch is in an hour",
+   "label": "now"
+  },
+  {
+   "text": "the database is corrupting live records",
+   "label": "now"
+  },
+  {
+   "text": "all our customers are seeing each other's data",
+   "label": "now"
+  },
+  {
+   "text": "critical outage, nothing is responding",
+   "label": "now"
+  },
+  {
+   "text": "emergency, the payment system just went offline",
+   "label": "now"
+  },
+  {
+   "text": "the report is off and I need it fixed before tomorrow's meeting",
+   "label": "soon"
+  },
+  {
+   "text": "can we sort this out by end of day",
+   "label": "soon"
+  },
+  {
+   "text": "this is blocking a teammate from working",
+   "label": "soon"
+  },
+  {
+   "text": "I need an answer before friday's deadline",
+   "label": "soon"
+  },
+  {
+   "text": "it's slow but working, please look this week",
+   "label": "soon"
+  },
+  {
+   "text": "respond when you can today",
+   "label": "soon"
+  },
+  {
+   "text": "hoping to resolve before the weekend",
+   "label": "soon"
+  },
+  {
+   "text": "this needs attention in the next day or two",
+   "label": "soon"
+  },
+  {
+   "text": "would like this handled before month end",
+   "label": "soon"
+  },
+  {
+   "text": "can you get to this by tomorrow morning",
+   "label": "soon"
+  },
+  {
+   "text": "following up, still need this addressed today",
+   "label": "soon"
+  },
+  {
+   "text": "just a small typo on the pricing page",
+   "label": "whenever"
+  },
+  {
+   "text": "would be nice to have dark mode someday",
+   "label": "whenever"
+  },
+  {
+   "text": "a suggestion for a future release",
+   "label": "whenever"
+  },
+  {
+   "text": "no rush at all on this",
+   "label": "whenever"
+  },
+  {
+   "text": "whenever you have a spare moment",
+   "label": "whenever"
+  },
+  {
+   "text": "minor cosmetic issue, low priority",
+   "label": "whenever"
+  },
+  {
+   "text": "just logging this for the backlog",
+   "label": "whenever"
+  },
+  {
+   "text": "not urgent, just curious",
+   "label": "whenever"
+  },
+  {
+   "text": "a nice-to-have for down the line",
+   "label": "whenever"
+  },
+  {
+   "text": "feel free to get to this eventually",
+   "label": "whenever"
+  },
+  {
+   "text": "low priority, no timeline needed",
+   "label": "whenever"
+  },
+  {
+   "text": "parking this idea here for later",
+   "label": "whenever"
+  }
+ ]
+}

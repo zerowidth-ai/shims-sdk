@@ -1,0 +1,70 @@
+{
+  "name": "@zerowidth/shims-sdk",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Shims: tiny decision models that run in the client — one shared encoder, a few KB per decision, a gate that knows when not to answer. Runtime, compiler and CLI.",
+  "license": "Apache-2.0",
+  "author": "Peter Binggeser @ ZeroWidth, LLC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zerowidth-ai/shims-sdk.git"
+  },
+  "homepage": "https://github.com/zerowidth-ai/shims-sdk#readme",
+  "bugs": "https://github.com/zerowidth-ai/shims-sdk/issues",
+  "keywords": [
+    "zerowidth",
+    "shim",
+    "shims",
+    "classifier",
+    "text-classification",
+    "intent",
+    "routing",
+    "embeddings",
+    "calibration",
+    "few-shot",
+    "on-device",
+    "local-first",
+    "browser",
+    "transformers.js"
+  ],
+  "main": "src/index.mjs",
+  "types": "src/index.d.mts",
+  "exports": {
+    ".": { "types": "./src/index.d.mts", "default": "./src/index.mjs" },
+    "./math": { "types": "./src/math.d.mts", "default": "./src/math.mjs" },
+    "./format": { "types": "./src/format.d.mts", "default": "./src/format.mjs" },
+    "./familiarity": { "types": "./src/familiarity.d.mts", "default": "./src/familiarity.mjs" },
+    "./surface": { "types": "./src/surface.d.mts", "default": "./src/surface.mjs" },
+    "./adapt": { "types": "./src/adapt.d.mts", "default": "./src/adapt.mjs" },
+    "./tree": { "types": "./src/tree.d.mts", "default": "./src/tree.mjs" },
+    "./system": { "types": "./src/system.d.mts", "default": "./src/system.mjs" },
+    "./observe": { "types": "./src/observe.d.mts", "default": "./src/observe.mjs" },
+    "./compile": { "types": "./src/compile/compile.d.mts", "default": "./src/compile/compile.mjs" },
+    "./compile/system": { "types": "./src/compile/system.d.mts", "default": "./src/compile/system.mjs" },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "shim-compile": "src/compile/cli.mjs"
+  },
+  "files": [
+    "src/",
+    "docs/",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "packageManager": "pnpm@11.5.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.2.0"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\"",
+    "test:mutations": "node test/mutations.mjs"
+  }
+}
