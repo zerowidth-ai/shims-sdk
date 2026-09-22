@@ -4,12 +4,9 @@
 // questions: how good is this shim, which answers does it get wrong, and is this
 // task even the right shape for a shim at all.
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import crypto from 'node:crypto';
 import { embed } from '../index.mjs';
 import { fitHead, fitTagHeads, softmax, balanceWeights, shuffled, fitTemperature, applyTemperature, calibrationError, fitCentroids, centroidPredict } from '../math.mjs';
-import { packHead, validateSource, readiness, MIN_PER_ANSWER, PROTOTYPE_PARITY, prototypeWeight, headBytes, DIM, EMBED_DIM, ENCODER_ID, FORMAT_VERSION, vectorCacheFile } from '../format.mjs';
+import { packHead, validateSource, readiness, MIN_PER_ANSWER, PROTOTYPE_PARITY, prototypeWeight, headBytes, DIM, EMBED_DIM, ENCODER_ID, FORMAT_VERSION, vectorCacheFile, bytesToBase64 } from '../format.mjs';
 import { packReference, unpackReference, knnPredict, familiarityScore } from '../familiarity.mjs';
 import { groupCandidates, learnGroups, fitTree, predictTree, packTree } from '../tree.mjs';
 
@@ -27,12 +24,16 @@ const FOLDS = 5;
 const SEED = 20260916;
 
 /* ---------- embedding cache: recompiles should be instant ---------- */
-const hash = s => crypto.createHash('sha1').update(s).digest('hex').slice(0, 16);
-
+// The cache is the only part of the compiler that touches a filesystem, so the Node modules it
+// needs are loaded here, on first use, and only when a caller asks for a cache. Everything else in
+// this file is plain arithmetic, which is what lets the same compiler run in a browser: pass no
+// `cacheDir`, and an `embed` that reaches whatever encoder the page already has.
 async function embedCached(texts, cacheDir, embedFn = embed) {
   // No cache directory means no cache: the test suite compiles with an injected encoder and must
   // not leave, or read, vectors on disk that a real build could pick up.
   if (!cacheDir) return { vectors: (await embedFn(texts)).map(v => Float32Array.from(v)), embedded: texts.length };
+  const [fs, path, crypto] = await Promise.all([import('node:fs/promises'), import('node:path'), import('node:crypto')]);
+  const hash = s => crypto.createHash('sha1').update(s).digest('hex').slice(0, 16);
   await fs.mkdir(cacheDir, { recursive: true });
   const file = path.join(cacheDir, vectorCacheFile());
   let cache = {};
@@ -437,8 +438,7 @@ export async function compileShim(src, { cacheDir, ...opts } = {}) {
     // Tag shims get a reference set too — without it a tag shim cannot tell familiar
     // input from foreign, which is the whole point of not answering.
     const ref = packReference(vectors, yMulti.map(set => [...set][0] ?? 0));
-    const b64 = arr => Buffer.from(arr.buffer, arr.byteOffset, arr.byteLength).toString('base64');
-    out.reference = { q: b64(ref.q), scales: b64(ref.scales), spread: ref.spread,
+    out.reference = { q: bytesToBase64(ref.q), scales: bytesToBase64(ref.scales), spread: ref.spread,
                       count: ref.count, labels: ref.labels };
     out.head = 'linear';
 
@@ -724,8 +724,7 @@ export async function compileShim(src, { cacheDir, ...opts } = {}) {
     // Ship the training set itself, quantised. Familiarity reads the semantic half;
     // a kNN head reads all of it. Same bytes either way.
     const ref = packReference(vectors, y);
-    const b64 = arr => Buffer.from(arr.buffer, arr.byteOffset, arr.byteLength).toString('base64');
-    out.reference = { q: b64(ref.q), scales: b64(ref.scales), spread: ref.spread,
+    out.reference = { q: bytesToBase64(ref.q), scales: bytesToBase64(ref.scales), spread: ref.spread,
                       count: ref.count, labels: ref.labels };
     out.report.referenceBytes = ref.q.byteLength + ref.scales.byteLength;
   }

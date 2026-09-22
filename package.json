@@ -1,6 +1,6 @@
 {
   "name": "@zerowidth/shims-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Shims: tiny decision models that run in the client — one shared encoder, a few KB per decision, a gate that knows when not to answer. Runtime, compiler and CLI.",
   "license": "Apache-2.0",

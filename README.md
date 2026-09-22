@@ -10,7 +10,8 @@ npm install @zerowidth/shims-sdk
 ```
 
 One package: the runtime an app imports, and the compiler and its CLI behind `@zerowidth/shims-sdk/compile`.
-A bundler ships only what the app imports, so the compiler never reaches a browser.
+A bundler ships only what the app imports, so an app that only decides never carries the compiler.
+An app that builds shims in the page can: the compiler runs in a browser as well as in Node.
 
 ```js
 import { Shim } from '@zerowidth/shims-sdk';

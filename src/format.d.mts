@@ -546,6 +546,9 @@ export const FORMAT_VERSION: 2;
 /** File name of the compiler's on-disk vector cache for an encoder. One file per encoder, so vectors cannot mix. */
 export const vectorCacheFile: (id?: string) => string;
 
+/** The bytes of any typed array as base64, in Node or a browser: how every vector in a weights file is written. */
+export const bytesToBase64: (arr: ArrayBufferView) => string;
+
 /** Float32 head → its base64 form for a weights file. */
 export const packHead: (head: Pick<Head, 'K' | 'W' | 'b'>) => PackedHead;
 

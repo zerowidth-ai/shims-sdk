@@ -111,4 +111,21 @@ else console.log(weights.report.accuracy, weights.report.accuracyInterval);
 ```
 
 `cacheDir` is optional. Without it nothing touches the disk and every example is embedded on each
-call. The compiler runs in Node 22 or later.
+call. The CLI runs in Node 22 or later.
+
+### In a browser
+
+The compiler is arithmetic over vectors, and the vector cache is the only part of it that reaches a
+filesystem, so it runs in a browser too. Leave `cacheDir` off and pass the encoder the page already
+has:
+
+```js
+import { encode } from '@zerowidth/shims-sdk';
+import { compileShim } from '@zerowidth/shims-sdk/compile';
+
+const weights = await compileShim(source, { embed: encode });   // the SDK's worker does the embedding
+```
+
+A build with a few dozen examples takes about as long as embedding them, plus a few hundred
+milliseconds of fitting. The result is the same weights file the CLI writes, so it can be saved from
+the page and loaded by `new Shim(weights)` anywhere.

@@ -28,13 +28,15 @@ export const vectorCacheFile = (id = ENCODER_ID) => `vectors.${id.replace(/[^a-z
 export const DIM = EMBED_DIM + SURFACE_DIM;
 export const FORMAT_VERSION = 2;
 
-const toB64 = f32 => {
-  const bytes = new Uint8Array(f32.buffer, f32.byteOffset, f32.byteLength);
+/** The bytes of any typed array as base64, in Node or a browser: how every vector in a weights file is written. */
+export const bytesToBase64 = arr => {
+  const bytes = new Uint8Array(arr.buffer, arr.byteOffset, arr.byteLength);
   if (typeof Buffer !== 'undefined') return Buffer.from(bytes).toString('base64');
   let s = '';
   for (const b of bytes) s += String.fromCharCode(b);
   return btoa(s);
 };
+const toB64 = bytesToBase64;
 
 const fromB64 = str => {
   if (typeof Buffer !== 'undefined') {

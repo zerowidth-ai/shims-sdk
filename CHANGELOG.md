@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1 — 2026-09-22
+
+- `compileShim` runs in a browser. The vector cache was the only part of the compiler that
+  touched a filesystem; its Node modules now load on first use, and only when a caller passes
+  `cacheDir`. Leave it off and pass `{ embed: encode }` to build on the encoder the page already has.
+- `bytesToBase64` from `@zerowidth/shims-sdk/format`: the bytes of any typed array as base64, in
+  Node or a browser.
+
 ## 0.1.0 — 2026-09-21
 
 First public release: `@zerowidth/shims-sdk`, the runtime and the compiler in one package.
